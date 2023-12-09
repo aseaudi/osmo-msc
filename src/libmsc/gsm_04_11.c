@@ -1158,6 +1158,7 @@ int gsm411_send_sms(struct gsm_network *net,
 		    struct vlr_subscr *vsub,
 		    struct gsm_sms *sms)
 {
+LOGP(DMSC, LOGL_NOTICE, "XXXXXX insdie gsm411_send_sms()\n");
 	uint8_t *data, *rp_ud_len;
 	struct gsm_trans *trans;
 	struct msgb *msg;
@@ -1197,6 +1198,9 @@ int gsm411_send_sms(struct gsm_network *net,
 
 	/* obtain a pointer for the rp_ud_len, so we can fill it later */
 	rp_ud_len = (uint8_t *)msgb_put(msg, 1);
+
+LOG_TRANS(trans, LOGL_ERROR, "XXXXXXX before generate 03.40 SMS-DELIVER/SMS-STATUS-REPORT\n");
+
 
 	if (sms->is_report) {
 		/* generate the 03.40 SMS-STATUS-REPORT TPDU */

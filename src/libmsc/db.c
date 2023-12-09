@@ -695,7 +695,7 @@ int db_sms_store(struct gsm_sms *sms)
 
 	sms->id = sqlite3_last_insert_rowid(g_dbc->db);
 
-	LOGP(DLSMS, LOGL_INFO, "Stored SMS id=%llu in DB\n", sms->id);
+	LOGP(DLSMS, LOGL_INFO, "XXXXXX Stored SMS id=%llu in DB\n", sms->id);
 
 	return 0;
 }

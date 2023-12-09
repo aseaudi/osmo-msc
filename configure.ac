@@ -1,7 +1,5 @@
 dnl Process this file with autoconf to produce a configure script
-AC_INIT([osmo-msc],
-	m4_esyscmd([./git-version-gen .tarball-version]),
-	[openbsc@lists.osmocom.org])
+AC_INIT([osmo-msc],[m4_esyscmd(./git-version-gen .tarball-version)],[openbsc@lists.osmocom.org])
 
 dnl *This* is the root dir, even if an install-sh exists in ../ or ../../
 AC_CONFIG_AUX_DIR([.])
@@ -115,8 +113,7 @@ AC_SUBST(osmo_ac_iu)
 # Coverage build taken from WebKit's configure.in
 AC_MSG_CHECKING([whether to enable code coverage support])
 AC_ARG_ENABLE(coverage,
-              AC_HELP_STRING([--enable-coverage],
-                             [enable code coverage support [default=no]]),
+              AS_HELP_STRING([--enable-coverage],[enable code coverage support [default=no]]),
               [],[enable_coverage="no"])
 AC_MSG_RESULT([$enable_coverage])
 if test "$enable_coverage" = "yes"; then
@@ -152,8 +149,7 @@ AC_DEFUN([CHECK_TM_INCLUDES_TM_GMTOFF], [
 CHECK_TM_INCLUDES_TM_GMTOFF
 
 AC_ARG_ENABLE([external_tests],
-		AC_HELP_STRING([--enable-external-tests],
-				[Include the VTY/CTRL tests in make check [default=no]]),
+		AS_HELP_STRING([--enable-external-tests],[Include the VTY/CTRL tests in make check [default=no]]),
 		[enable_ext_tests="$enableval"],[enable_ext_tests="no"])
 if test "x$enable_ext_tests" = "xyes" ; then
 	AM_PATH_PYTHON
@@ -230,8 +226,7 @@ AC_MSG_RESULT([CPPFLAGS="$CPPFLAGS"])
 dnl Generate the output
 AM_CONFIG_HEADER(config.h)
 
-AC_OUTPUT(
-    include/Makefile
+AC_CONFIG_FILES([include/Makefile
     include/osmocom/Makefile
     include/osmocom/msc/Makefile
     include/osmocom/smpp/Makefile
@@ -257,4 +252,5 @@ AC_OUTPUT(
     contrib/Makefile
     contrib/systemd/Makefile
     contrib/osmo-msc.spec
-    Makefile)
+    Makefile])
+AC_OUTPUT
