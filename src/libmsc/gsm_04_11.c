@@ -1095,6 +1095,7 @@ static struct gsm_trans *gsm411_trans_init(struct gsm_network *net, struct vlr_s
 /* Assigns an (unused) SM-RP-MR value to a given transaction */
 static int gsm411_assign_sm_rp_mr(struct gsm_trans *trans)
 {
+
 	uint8_t mr;
 
 	/* After allocation a given transaction has zero-initialized
@@ -1158,7 +1159,7 @@ int gsm411_send_sms(struct gsm_network *net,
 		    struct vlr_subscr *vsub,
 		    struct gsm_sms *sms)
 {
-LOGP(DMSC, LOGL_NOTICE, "XXXXXX insdie gsm411_send_sms()\n");
+	LOGP(DMSC, LOGL_NOTICE, "XXXXXX inside gsm411_send_sms()\n");
 	uint8_t *data, *rp_ud_len;
 	struct gsm_trans *trans;
 	struct msgb *msg;
@@ -1171,6 +1172,7 @@ LOGP(DMSC, LOGL_NOTICE, "XXXXXX insdie gsm411_send_sms()\n");
 		sms_free(sms);
 		return -ENOMEM;
 	}
+	LOGP(DMSC, LOGL_NOTICE, "XXXXXX return from gsm411_alloc_mt_trans()\n");
 
 	/* Allocate a message buffer for to be encoded SMS */
 	msg = gsm411_msgb_alloc();
@@ -1180,6 +1182,7 @@ LOGP(DMSC, LOGL_NOTICE, "XXXXXX insdie gsm411_send_sms()\n");
 		sms_free(sms);
 		return -ENOMEM;
 	}
+	LOGP(DMSC, LOGL_NOTICE, "XXXXXX return from gsm411_msgb_alloc()\n");
 
 	/* Hardcode SMSC Originating Address for now */
 	data = (uint8_t *)msgb_put(msg, 8);
