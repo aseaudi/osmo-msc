@@ -527,8 +527,8 @@ static int gsm340_rx_tpdu(struct gsm_trans *trans, struct msgb *msg,
 
 	/* length in bytes of the destination address */
 	da_len_bytes = 2 + *smsp/2 + *smsp%2;
-	if (da_len_bytes > 12) {
-		LOG_TRANS(trans, LOGL_ERROR, "Destination Address > 12 bytes ?!?\n");
+	if (da_len_bytes > 9) {
+		LOG_TRANS(trans, LOGL_ERROR, "Destination Address > 9 bytes ?!?\n");
 		rc = GSM411_RP_CAUSE_SEMANT_INC_MSG;
 		goto out;
 	} else if (da_len_bytes < 4) {
