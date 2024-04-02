@@ -360,7 +360,10 @@ int msub_set_vsub(struct msub *msub, struct vlr_subscr *vsub)
 				  other_msc_a ? " at " : "", other_msc_a ? other_msc_a->c.fi->id : "");
 			LOG_MSC_A(other_msc_a, LOGL_ERROR, "Attempt to associate a second subscriber connection%s%s\n",
 				  msc_a ? " at " : "", msc_a ? msc_a->c.fi->id : "");
-			if (other_msc_a && msc_a_in_release(other_msc_a)) {
+			// bug fix - we noticed that if other msc is not in release, we get segmentation fault
+			// so, let's close the old connection anyway, and let the new connection proceed
+			// it is better than segfault and crash the processs
+			if (other_msc_a /* && msc_a_in_release(other_msc_a) */) {
 				LOG_MSC_A(other_msc_a, LOGL_ERROR,
 					  "Another connection for this subscriber is coming up, since this"
 					  " is already in release, forcefully discarding it\n");
