@@ -561,6 +561,13 @@ static int sub_ready_for_sm(struct gsm_network *net, struct vlr_subscr *vsub)
 		return 0;
 	}
 
+	// We notice a bug here, if we receive MO SMS, we will come here
+	// and try to submit any messages waiting to be sent to the UE
+	// however, the UE might be sending us a message MO SMS at the same time
+	// so we get CP-DATA, instead of CP-ACK, and the process crashes
+	// better skip this part, and leave the SMS queue handle any waiting messages
+	return 0;
+
 	/* Now try to deliver any pending SMS to this sub */
 	sms = db_sms_get_unsent_for_subscr(vsub, INT_MAX);
 	if (!sms)
