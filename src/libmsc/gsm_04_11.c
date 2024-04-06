@@ -528,6 +528,11 @@ static int gsm340_rx_tpdu(struct gsm_trans *trans, struct msgb *msg,
 	/* length in bytes of the destination address */
 	da_len_bytes = 2 + *smsp/2 + *smsp%2;
 	if (da_len_bytes > 9) {
+		// due to a bug in the SQL query for the SMS queue, if we have any sms
+		// with destination address > 20 digits, the sql query fails and retrieves
+		// all sms in the queue, and we keep going in a loop for that sms
+		// destination address, so we better prevent this from happenning
+		// by limiting the length of the destination address to 14 digits only
 		LOG_TRANS(trans, LOGL_ERROR, "Destination Address > 9 bytes ?!?\n");
 		rc = GSM411_RP_CAUSE_SEMANT_INC_MSG;
 		goto out;
