@@ -105,6 +105,7 @@ static struct session_handler *sess_hdl = NULL;
 static int fd_init = 0;
 static int sms_credit_ok = 1;
 static int cca_pending = 0;
+static int ccr_req_no = 0;
 
 // --- CCA Response Handler ---
 int cca_handler(void *cbdata, struct msg **msg)
@@ -280,8 +281,10 @@ int init_dicts()
     return 0;
 }
 
+// int main(int argc, char** argv)
 int sms_credit(char* imsi)
 {
+    // char* imsi = argv[1];
     struct session *sess = NULL;
     char *sid = NULL;
     struct msg *req = NULL;
@@ -354,9 +357,9 @@ skip_fd_init:
     CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
     CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
 
-    const char *service_context_id = "32274@3gpp.org";
-    val.os.data = (unsigned char *)service_context_id;
-    val.os.len = strlen(service_context_id);
+    const char *service_ctx_id = "32274@3gpp.org";
+    val.os.data = (unsigned char *)service_ctx_id;
+    val.os.len = strlen(service_ctx_id);
     CHECK_FCT(fd_msg_avp_new(service_context_id, 0, &avp));
     CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
     CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
@@ -372,10 +375,11 @@ skip_fd_init:
     CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
     CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
 
-    val.i32 = 0; // First request
+    val.i32 = ccr_req_no; // First request
     CHECK_FCT(fd_msg_avp_new(gy_cc_request_number, 0, &avp));
     CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
     CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
+    ccr_req_no++;
 
     val.os.data = (uint8_t *) imsi;
     val.os.len = strlen(imsi);
@@ -426,11 +430,12 @@ skip_fd_init:
     // sleep(5); // let dispatcher receive the CCA
 
     int time_out = 0;
+    cca_pending = 1;
     while(cca_pending == 1 && time_out < 50) {
         sleep(0.1);
         time_out++;
     }    
-
+    printf("sms_credit_ok %d\n", sms_credit_ok);
     return sms_credit_ok;
 
     // Cleanup
