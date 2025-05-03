@@ -58,4 +58,5 @@ noinst_HEADERS = \
 	vty.h \
 	asci_gcr.h \
 	asci_vty.h \
+	ocs.h \
 	$(NULL)

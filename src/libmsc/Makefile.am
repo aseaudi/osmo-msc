@@ -78,6 +78,7 @@ libmsc_a_SOURCES = \
 	sgs_vty.c \
 	asci_gcr.c \
 	asci_vty.c \
+	ocs.c \
 	$(NULL)
 
 if BUILD_IU
