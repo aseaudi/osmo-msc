@@ -56,6 +56,7 @@
 #include <osmocom/msc/msub.h>
 #include <osmocom/msc/msc_a.h>
 #include <osmocom/msc/paging.h>
+#include <osmocom/msc/ocs.h>
 
 #ifdef BUILD_SMPP
 #include <osmocom/smpp/smpp_smsc.h>
@@ -499,6 +500,10 @@ static int gsm340_rx_tpdu(struct gsm_trans *trans, struct msgb *msg,
 					     "gsm_network and/or vlr_subscr is NULL?!?\n");
 		return GSM411_RP_CAUSE_MO_NET_OUT_OF_ORDER;
 	}
+
+	// check if subscriber has enough balance in OCS
+	if (sms_credit(vsub->imsi) != 0)
+	    return GSM411_RP_CAUSE_MO_SMS_REJECTED;
 
 	/* FIXME: should we do this on success, after all checks? */
 	rate_ctr_inc(rate_ctr_group_get_ctr(net->msc_ctrs, MSC_CTR_SMS_SUBMITTED));
