@@ -118,15 +118,15 @@ int cca_handler(void *cbdata, struct msg **msg)
     int ret = 0;
     cca_pending = 1;
 
-    printf("Received Credit-Control-Answer (CCA):\n");
+    printf("XXXXXX Received Credit-Control-Answer (CCA):\n");
 
     CHECK_FCT(fd_msg_search_avp(*msg, gy_cc_request_number, &avp));
     CHECK_FCT(fd_msg_avp_hdr(avp, &hdr));
-    printf("Request-Number: %u\n", hdr->avp_value->i32);
+    printf("XXXXXX Request-Number: %u\n", hdr->avp_value->i32);
 
     CHECK_FCT(fd_msg_search_avp(*msg, result_code, &avp));
     CHECK_FCT(fd_msg_avp_hdr(avp, &hdr));
-    printf("Result Code: %d\n", hdr->avp_value->i32);
+    printf("XXXXXX Result Code: %d\n", hdr->avp_value->i32);
 
     if (hdr->avp_value->i32 == 2001) sms_credit_ok = 0; 
     CHECK_FCT(fd_msg_free(*msg));
@@ -138,12 +138,14 @@ int cca_handler(void *cbdata, struct msg **msg)
 static int gy_fb_cb(struct msg **msg, struct avp *avp,
                         struct session *sess, void *opaque, enum disp_action *act)
 {
+    printf("XXXXXX gy_fb_cb\n");
     return 0;
 }
 
 static int gy_rar_cb(struct msg **msg, struct avp *avp,
                          struct session *session, void *opaque, enum disp_action *act)
 {
+    printf("XXXXXX gy_rar_cb\n");
     return 0;
 }
 struct sess_state
@@ -171,13 +173,14 @@ static void state_cleanup(struct sess_state *sess_data, os0_t sid, void *opaque)
 {
     if (!sess_data)
     {
-        printf("No session state");
+        printf("XXXXXX No session state\n");
         return;
     }
 }
 
 int init_dicts()
 {
+    printf("XXXXXX init_dicts\n");
 
     vendor_id_t vid = 10415; 
 
@@ -284,6 +287,8 @@ int init_dicts()
 // int main(int argc, char** argv)
 int sms_credit(char* imsi)
 {
+    printf("XXXXXX sms_credit\n");
+    printf("XXXXXX imsi %s\n");
     // char* imsi = argv[1];
     struct session *sess = NULL;
     char *sid = NULL;
@@ -303,17 +308,17 @@ int sms_credit(char* imsi)
     cca_pending = 0;
 
     if (fd_init != 0) goto skip_fd_init;
-    printf("initialize free diameter\n");
+    printf("XXXXXX initialize free diameter\n");
 
     // Initialize freeDiameter
     CHECK_FCT(fd_core_initialize());
     CHECK_FCT(fd_core_parseconf("freeDiameter.conf"));
     CHECK_FCT(fd_sess_handler_create(&sess_hdl, state_cleanup, NULL, NULL));
 
-    printf("init dicts\n");
+    printf("XXXXXX init dicts\n");
     init_dicts();
 
-    printf("register dispatch call backs\n");
+    printf("XXXXXX register dispatch call backs\n");
     memset(&data, 0, sizeof(data));
 
     data.app = gy_application;
@@ -329,6 +334,7 @@ int sms_credit(char* imsi)
 
     sleep(1);
 
+    printf("XXXXXX freediameter initialized\n");
     fd_init = 1;
 
     // Build CCR request
@@ -435,7 +441,7 @@ skip_fd_init:
         sleep(0.1);
         time_out++;
     }    
-    printf("sms_credit_ok %d\n", sms_credit_ok);
+    printf("XXXXXX sms_credit_ok %d\n", sms_credit_ok);
     return sms_credit_ok;
 
     // Cleanup
