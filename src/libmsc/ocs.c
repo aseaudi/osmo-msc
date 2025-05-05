@@ -110,6 +110,8 @@ static int ccr_req_no = 0;
 // --- CCA Response Handler ---
 int cca_handler(void *cbdata, struct msg **msg)
 {
+    printf("XXXXXX cca_handler\n");
+
     struct msg *response = *msg;
     struct avp *avp = NULL;
     struct avp_hdr *hdr = NULL;
@@ -340,6 +342,7 @@ int sms_credit(char* imsi)
 
 skip_fd_init:
 
+    printf("XXXXXX build CCR\n");
     CHECK_FCT(fd_msg_new(gy_cmd_ccr, MSGFL_ALLOC_ETEID, &req));
 
     CHECK_FCT(fd_msg_hdr(req, &h));
@@ -428,7 +431,7 @@ skip_fd_init:
     CHECK_FCT(fd_sess_state_store(sess_hdl, session, &sess_data));
 
 
-
+    printf("XXXXXX send CCR\n");
     CHECK_FCT(fd_msg_send(&req, cca_handler, svg));
 
     // Wait for response
@@ -436,8 +439,8 @@ skip_fd_init:
 
     int time_out = 0;
     cca_pending = 1;
-    while(cca_pending == 1 && time_out < 50) {
-        sleep(0.1);
+    while(cca_pending == 1 && time_out < 5) {
+        sleep(1);
         time_out++;
     }    
     printf("XXXXXX sms_credit_ok %d\n", sms_credit_ok);
