@@ -315,7 +315,6 @@ int sms_credit(char* imsi)
     CHECK_FCT(fd_core_parseconf("freeDiameter.conf"));
     CHECK_FCT(fd_sess_handler_create(&sess_hdl, state_cleanup, NULL, NULL));
 
-    printf("XXXXXX init dicts\n");
     init_dicts();
 
     printf("XXXXXX register dispatch call backs\n");
