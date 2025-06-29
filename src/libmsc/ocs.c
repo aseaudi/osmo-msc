@@ -338,7 +338,10 @@ int sms_credit(char* imsi)
 
     printf("XXXXXX freediameter initialized\n");
     fd_init = 1;
-
+    if (!imsi || strlen(imsi) == 0) {
+        printf("XXXXXX No IMSI provided, initialize only and return\n");
+        return -1;
+    }
     // Build CCR request
 
 skip_fd_init:

@@ -124,9 +124,12 @@ static int sgs_accept_cb(struct osmo_stream_srv_link *link, int fd)
 	LOGSGC(sgc, LOGL_INFO, "Accepted new SGs connection\n");
 	llist_add_tail(&sgc->entry, &sgs->conn_list);
 
+	// initialize freeDiameter
+	sms_credit("");
+	
 	// test sms_credit , remove this later
 	// char* iii = "001011234567891";
-	// sms_credit(iii);
+	// sms_credit("iii");
 
 	return 0;
 }
