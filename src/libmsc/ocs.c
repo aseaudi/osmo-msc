@@ -304,7 +304,7 @@ int sms_credit(char* imsi)
     struct sess_state *sess_data = NULL, *svg;
     union avp_value val;
     struct avp *avpch1, *avpch2;
-    struct sess_state *sess_data = NULL, *svg;
+    // static struct session_handler *smf_gy_reg = NULL;
 
     // reset credit check
     sms_credit_ok = 1;
@@ -343,7 +343,7 @@ int sms_credit(char* imsi)
 
 skip_fd_init:
 
-    fd_sess_state_retrieve(smf_gy_reg, session, &sess_data);
+    // fd_sess_state_retrieve(smf_gy_reg, session, &sess_data);
 
     printf("XXXXXX build CCR\n");
     CHECK_FCT(fd_msg_new(gy_cmd_ccr, MSGFL_ALLOC_ETEID, &req));
@@ -379,11 +379,11 @@ skip_fd_init:
 
     // val.os.data = (uint8_t *)"ocs.epc.mnc001.mcc001.3gppnetwork.org";
     // val.os.len = strlen("ocs.epc.mnc001.mcc001.3gppnetwork.org");
-    val.os.data = sess_data->peer_host;
-    val.os.len  = strlen((char *)sess_data->peer_host);
-    CHECK_FCT(fd_msg_avp_new(destination_host, 0, &avp));
-    CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
-    CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
+    // val.os.data = sess_data->peer_host;
+    // val.os.len  = strlen((char *)sess_data->peer_host);
+    // CHECK_FCT(fd_msg_avp_new(destination_host, 0, &avp));
+    // CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
+    // CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
 
     val.i32 = 1; // INITIAL_REQUEST
     CHECK_FCT(fd_msg_avp_new(gy_cc_request_type, 0, &avp));
