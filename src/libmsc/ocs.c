@@ -288,6 +288,7 @@ int init_dicts()
 
 int freediameter_init(void)
 {
+    printf("XXXXXX freediameter_init\n");
     sms_credit(""); // Initialize only, no IMSI provided
     return 0;
 }
@@ -296,7 +297,7 @@ int freediameter_init(void)
 int sms_credit(char* imsi)
 {
     printf("XXXXXX sms_credit\n");
-    printf("XXXXXX imsi %s\n");
+    printf("XXXXXX imsi %s\n", imsi);
     // char* imsi = argv[1];
     struct session *sess = NULL;
     char *sid = NULL;
