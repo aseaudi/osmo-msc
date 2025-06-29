@@ -27,6 +27,7 @@
 #include <osmocom/core/socket.h>
 #include <osmocom/core/select.h>
 #include <osmocom/netif/stream.h>
+#include <osmocom/msc/ocs.h>
 #include <netinet/sctp.h>
 
 #define LOGSGC(sgc, lvl, fmt, args...) \
@@ -124,10 +125,7 @@ static int sgs_accept_cb(struct osmo_stream_srv_link *link, int fd)
 	LOGSGC(sgc, LOGL_INFO, "Accepted new SGs connection\n");
 	llist_add_tail(&sgc->entry, &sgs->conn_list);
 
-	// initialize freeDiameter
-	sms_credit("");
-	
-	// test sms_credit , remove this later
+	// fake test sms_credit , remove this later
 	// char* iii = "001011234567891";
 	// sms_credit("iii");
 

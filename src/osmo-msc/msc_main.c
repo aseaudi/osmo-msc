@@ -74,6 +74,7 @@
 #include <osmocom/msc/gsup_client_mux.h>
 #include <osmocom/msc/e_link.h>
 #include <osmocom/msc/mncc_call.h>
+#include <osmocom/msc/ocs.h>
 
 #ifdef BUILD_IU
 #include <osmocom/ranap/iu_client.h>
@@ -857,6 +858,15 @@ TODO: we probably want some of the _net_ ctrl commands from bsc_base_ctrl_cmds_i
 			ret = 6;
 			goto error;
 		}
+	}
+
+	// initialize freeDiameter
+	rc = fd_init();	
+
+	if (rc < 0) {
+		perror(stderr, "Failed to initialize freeDiameter\n");
+		ret = 7;
+		goto error;
 	}
 
 	do {

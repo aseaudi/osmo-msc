@@ -286,6 +286,12 @@ int init_dicts()
     return 0;
 }
 
+int fd_init(void)
+{
+    sms_credit(""); // Initialize only, no IMSI provided
+    return 0;
+};
+
 // int main(int argc, char** argv)
 int sms_credit(char* imsi)
 {
@@ -340,12 +346,12 @@ int sms_credit(char* imsi)
     fd_init = 1;
     if (!imsi || strlen(imsi) == 0) {
         printf("XXXXXX No IMSI provided, initialize only and return\n");
-        return -1;
+        return 0;
     }
-    // Build CCR request
 
 skip_fd_init:
 
+    // Build CCR request
     // fd_sess_state_retrieve(smf_gy_reg, session, &sess_data);
 
     printf("XXXXXX build CCR\n");
