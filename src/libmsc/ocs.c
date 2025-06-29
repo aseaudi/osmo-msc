@@ -304,6 +304,7 @@ int sms_credit(char* imsi)
     struct sess_state *sess_data = NULL, *svg;
     union avp_value val;
     struct avp *avpch1, *avpch2;
+    struct sess_state *sess_data = NULL, *svg;
 
     // reset credit check
     sms_credit_ok = 1;
@@ -342,6 +343,8 @@ int sms_credit(char* imsi)
 
 skip_fd_init:
 
+    fd_sess_state_retrieve(smf_gy_reg, session, &sess_data);
+
     printf("XXXXXX build CCR\n");
     CHECK_FCT(fd_msg_new(gy_cmd_ccr, MSGFL_ALLOC_ETEID, &req));
 
@@ -354,8 +357,10 @@ skip_fd_init:
 
     CHECK_FCT(fd_msg_add_origin(req, 0));
 
-    val.os.data = (uint8_t *)"epc.mnc001.mcc001.3gppnetwork.org";
-    val.os.len = strlen("epc.mnc001.mcc001.3gppnetwork.org");
+    // val.os.data = (uint8_t *)"epc.mnc001.mcc001.3gppnetwork.org";
+    // val.os.len = strlen("epc.mnc001.mcc001.3gppnetwork.org");
+    val.os.data = (unsigned char *)(fd_g_config->cnf_diamrlm);
+    val.os.len = strlen(fd_g_config->cnf_diamrlm);
     CHECK_FCT(fd_msg_avp_new(destination_realm, 0, &avp));
     CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
     CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
@@ -372,8 +377,10 @@ skip_fd_init:
     CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
     CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
 
-    val.os.data = (uint8_t *)"ocs.epc.mnc001.mcc001.3gppnetwork.org";
-    val.os.len = strlen("ocs.epc.mnc001.mcc001.3gppnetwork.org");
+    // val.os.data = (uint8_t *)"ocs.epc.mnc001.mcc001.3gppnetwork.org";
+    // val.os.len = strlen("ocs.epc.mnc001.mcc001.3gppnetwork.org");
+    val.os.data = sess_data->peer_host;
+    val.os.len  = strlen((char *)sess_data->peer_host);
     CHECK_FCT(fd_msg_avp_new(destination_host, 0, &avp));
     CHECK_FCT(fd_msg_avp_setvalue(avp, &val));
     CHECK_FCT(fd_msg_avp_add(req, MSG_BRW_LAST_CHILD, avp));
