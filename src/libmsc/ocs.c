@@ -315,7 +315,7 @@ int sms_credit(char* imsi)
 
     // Initialize freeDiameter
     CHECK_FCT(fd_core_initialize());
-    CHECK_FCT(fd_core_parseconf("/etc/freeDiameter.conf"));
+    CHECK_FCT(fd_core_parseconf("/etc/freeDiameter/freeDiameter.conf"));
     CHECK_FCT(fd_sess_handler_create(&sess_hdl, state_cleanup, NULL, NULL));
 
     init_dicts();
