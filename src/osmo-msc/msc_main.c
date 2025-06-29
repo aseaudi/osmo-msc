@@ -864,7 +864,7 @@ TODO: we probably want some of the _net_ ctrl commands from bsc_base_ctrl_cmds_i
 	rc = freediameter_init();	
 
 	if (rc < 0) {
-		perror(stderr, "Failed to initialize freeDiameter\n");
+		perror("Failed to initialize freeDiameter\n");
 		ret = 7;
 		goto error;
 	}
