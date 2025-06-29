@@ -286,11 +286,11 @@ int init_dicts()
     return 0;
 }
 
-int fd_init(void)
+int freediameter_init(void)
 {
     sms_credit(""); // Initialize only, no IMSI provided
     return 0;
-};
+}
 
 // int main(int argc, char** argv)
 int sms_credit(char* imsi)
