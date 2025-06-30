@@ -309,7 +309,7 @@ int smpp_route(const struct smsc *smsc, const struct osmo_smpp_addr *dest, struc
 			DEBUGP(DSMPP, "Using existing default route\n");
 			acl = smsc->def_route;
 		}
-	} else printf("XXXXXX smpp_route: ACL found\n", acl);
+	} else printf("XXXXXX smpp_route: ACL found\n");
 
 	if (acl && acl->esme) {
 		printf("XXXXXX smpp_route: ACL has ESME\n");
