@@ -303,14 +303,16 @@ int smpp_route(const struct smsc *smsc, const struct osmo_smpp_addr *dest, struc
 	}
 
 	if (!acl) {
+		printf("XXXXXX smpp_route: no ACL found\n");
 		/* check for default route */
 		if (smsc->def_route) {
 			DEBUGP(DSMPP, "Using existing default route\n");
 			acl = smsc->def_route;
 		}
-	}
+	} else printf("XXXXXX smpp_route: ACL found\n", acl);
 
 	if (acl && acl->esme) {
+		printf("XXXXXX smpp_route: ACL has ESME\n");
 		struct smpp_esme *esme;
 		DEBUGP(DSMPP, "ACL even has ESME, we can route to it!\n");
 		esme = acl->esme;
@@ -319,7 +321,7 @@ int smpp_route(const struct smsc *smsc, const struct osmo_smpp_addr *dest, struc
 			return 0;
 		} else
 			LOGPESME(esme->esme, LOGL_NOTICE, "is matching route, but not bound for Rx, discarding MO SMS\n");
-	}
+	} else printf("XXXXXX smpp_route: ACL does not have ESME\n");
 
 	*pesme = NULL;
 	if (acl)
