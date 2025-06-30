@@ -117,6 +117,7 @@ int smpp_addr_eq(const struct osmo_smpp_addr *a,
 struct osmo_smpp_acl *smpp_acl_by_system_id(struct smsc *smsc,
 					    const char *sys_id)
 {
+	printf("XXXXXX smpp_acl_by_system_id\n");
 	struct osmo_smpp_acl *acl;
 
 	llist_for_each_entry(acl, &smsc->acl_list, list) {
@@ -129,6 +130,8 @@ struct osmo_smpp_acl *smpp_acl_by_system_id(struct smsc *smsc,
 
 struct osmo_smpp_acl *smpp_acl_alloc(struct smsc *smsc, const char *sys_id)
 {
+	printf("XXXXXX smpp_acl_alloc\n");
+
 	struct osmo_smpp_acl *acl;
 
 	if (strlen(sys_id) > SMPP_SYS_ID_LEN)
@@ -951,6 +954,7 @@ static int smsc_fd_cb(struct osmo_fd *ofd, unsigned int what)
 /*! \brief allocate and initialize an smsc struct from talloc context ctx. */
 struct smsc *smpp_smsc_alloc_init(void *ctx)
 {
+	printf("XXXXXX smpp_smsc_alloc_init\n");
 	struct smsc *smsc = talloc_zero(ctx, struct smsc);
 
 	INIT_LLIST_HEAD(&smsc->esme_list);

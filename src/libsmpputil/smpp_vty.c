@@ -204,6 +204,7 @@ DEFUN(cfg_esme, cfg_esme_cmd,
 	"Configure a particular ESME\n"
 	"Alphanumeric System ID of the ESME to be configured\n")
 {
+	printf("XXXXXX config esme NAME\n")
 	struct smsc *smsc = smsc_from_vty(vty);
 	struct osmo_smpp_acl *acl;
 	const char *id = argv[0];
@@ -215,8 +216,10 @@ DEFUN(cfg_esme, cfg_esme_cmd,
 	}
 	acl = smpp_acl_by_system_id(smsc, id);
 	if (!acl) {
+		printf("XXXXXX config esme NAME, if (!acl) = false (FIRST)\n")
 		acl = smpp_acl_alloc(smsc, id);
 		if (!acl)
+			printf("XXXXXX config esme NAME, if (!acl) = false (SECOND)\n")
 			return CMD_WARNING;
 	}
 
