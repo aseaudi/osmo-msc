@@ -402,6 +402,7 @@ static int _process_bind(struct smpp_esme *esme, uint8_t if_version,
 			 uint32_t bind_flags, const char *sys_id,
 			 const char *passwd)
 {
+	printf("XXXXXX _process_bind\n");
 	struct osmo_smpp_acl *acl;
 
 	if (if_version != SMPP_VERSION)
@@ -426,6 +427,7 @@ static int _process_bind(struct smpp_esme *esme, uint8_t if_version,
 		}
 	}
 	if (acl) {
+		printf("XXXXXX _process_bind: if (acl) = true\n");
 		esme->acl = acl;
 		acl->esme = esme;
 	}
@@ -439,6 +441,7 @@ static int _process_bind(struct smpp_esme *esme, uint8_t if_version,
 /*! \brief handle an incoming SMPP BIND RECEIVER */
 static int smpp_handle_bind_rx(struct smpp_esme *esme, struct msgb *msg)
 {
+	printf("XXXXXX smpp_handle_bind_rx\n");
 	struct bind_receiver_t bind;
 	struct bind_receiver_resp_t bind_r;
 	int rc;
@@ -465,6 +468,7 @@ static int smpp_handle_bind_rx(struct smpp_esme *esme, struct msgb *msg)
 /*! \brief handle an incoming SMPP BIND TRANSMITTER */
 static int smpp_handle_bind_tx(struct smpp_esme *esme, struct msgb *msg)
 {
+	printf("XXXXXX smpp_handle_bind_tx\n");
 	struct bind_transmitter_t bind;
 	struct bind_transmitter_resp_t bind_r;
 	struct tlv_t tlv = {};
@@ -503,6 +507,7 @@ static int smpp_handle_bind_tx(struct smpp_esme *esme, struct msgb *msg)
 /*! \brief handle an incoming SMPP BIND TRANSCEIVER */
 static int smpp_handle_bind_trx(struct smpp_esme *esme, struct msgb *msg)
 {
+	printf("XXXXXX smpp_handle_bind_trx\n");
 	struct bind_transceiver_t bind;
 	struct bind_transceiver_resp_t bind_r;
 	int rc;
@@ -714,6 +719,7 @@ static int smpp_handle_submit(struct smpp_esme *esme, struct msgb *msg)
 /*! \brief one complete SMPP PDU from the ESME has been received */
 static int smpp_pdu_rx(struct smpp_esme *esme, struct msgb *msg __uses)
 {
+	printf("XXXXXX smpp_pdu_rx\n");
 	uint32_t cmd_id = smpp_msgb_cmdid(msg);
 	int rc = 0;
 
@@ -783,6 +789,7 @@ static int smpp_pdu_rx(struct smpp_esme *esme, struct msgb *msg __uses)
 /* !\brief call-back when per-ESME TCP socket has some data to be read */
 static int esme_link_read_cb(struct osmo_fd *ofd)
 {
+	printf("XXXXXX esme_link_read_cb\n");
 	struct smpp_esme *e = ofd->data;
 	struct esme *esme = e->esme;
 	uint32_t len;
@@ -893,6 +900,7 @@ struct esme *esme_alloc(void *ctx)
 static int link_accept_cb(struct smsc *smsc, int fd,
 			  struct sockaddr_storage *s, socklen_t s_len)
 {
+	printf("XXXXXX link_accept_cb\n");
 	struct smpp_esme *esme = talloc_zero(smsc, struct smpp_esme);
 	if (!esme) {
 		close(fd);

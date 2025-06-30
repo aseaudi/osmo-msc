@@ -154,6 +154,7 @@ static void esme_read_state_reset(struct esme *esme)
 /* FIXME: merge with smpp_smsc.c */
 static int esme_read_cb(struct osmo_fd *ofd)
 {
+	printf("XXXXXX esme_read_cb\n");
 	struct esme *esme = ofd->data;
 	uint32_t len;
 	uint8_t *lenptr = (uint8_t *) &len;
@@ -241,6 +242,7 @@ static int esme_write_cb(struct osmo_fd *ofd, struct msgb *msg)
 
 static int smpp_esme_init(struct esme *esme, const char *host, uint16_t port)
 {
+	printf("XXXXXX smpp_esme_init\n");
 	int rc;
 
 	if (port == 0)
